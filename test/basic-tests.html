@@ -20,22 +20,17 @@
 </head>
 
 <body>
-  <test-fixture id="displayLabel">
-    <template>
-      <at-form-static label="lorem ipsum"></at-form-static>
-    </template>
-  </test-fixture>
-
-  <test-fixture id="hideLabel">
-    <template>
-      <at-form-static label="lorem ipsum" hide-label></at-form-static>
-    </template>
-  </test-fixture>
 
   <test-fixture id="hidden">
     <template>
         <at-form-static hide></at-form-static>
       </template>
+  </test-fixture>
+
+  <test-fixture id="valueAsAttr">
+    <template>
+      <at-form-static value='<test-fixture id="hidden"><template><at-form-static hide></at-form-static></template></test-fixture><test-fixture id="propertyTests"><template><at-form-static></at-form-static></template></test-fixture>'></at-form-static>
+    </template>
   </test-fixture>
 
   <test-fixture id="propertyTests">
@@ -53,36 +48,6 @@
       }
 
       suite('tests where property values are set as attributes', function () {
-        test('label is displayed', function () {
-          var element = fixture('displayLabel');
-          assert.equal(element.label, 'lorem ipsum', "label not set correctly");
-          assert.equal(element.hideLabel, false, "hideLabel has incorrect value");
-
-          var label = element.$.label;
-          assert.equal(Polymer.dom(label).innerHTML, "lorem ipsum", "label content not set correctly");
-
-          var atContainer = element.$.atContainer;
-          var labelDisplay = getStylePropertyValue(label, 'display');
-          assert.equal(labelDisplay, 'block', "label display has correct value");
-          var containerDisplay = getStylePropertyValue(atContainer, 'display');
-          assert.equal(containerDisplay, 'block', "container display has correct value");
-        });
-
-        test('label is hidden', function () {
-          var element = fixture('hideLabel');
-          assert.equal(element.label, 'lorem ipsum', "label not set correctly");
-          assert.equal(element.hideLabel, true, "hideLabel has incorrect value");
-
-          var label = element.$.label;
-          assert.equal(Polymer.dom(label).innerHTML, "lorem ipsum", "label content not set correctly");
-
-          var labelDisplay = getStylePropertyValue(label, 'display');
-          assert.equal(labelDisplay, 'block', "label display has correct value");
-
-          var atContainer = element.$.atContainer;
-          var containerDisplay = getStylePropertyValue(atContainer, 'display');
-          assert.equal(containerDisplay, 'none', "container display has correct value");
-        });
 
         test('element is hidden', function () {
           var element = fixture('hidden');
@@ -92,44 +57,36 @@
           var containerDisplay = getStylePropertyValue(atContainer, 'display');
           assert.equal(containerDisplay, 'none', "container display has correct value");
         });
+
+        test('value as attribute', function () {
+          var element = fixture('valueAsAttr');
+          var staticHtml = '<test-fixture id="hidden"><template><at-form-static hide></at-form-static></template></test-fixture><test-fixture id="propertyTests"><template><at-form-static></at-form-static></template></test-fixture>';
+          assert.equal(element.value, staticHtml, "value is not correct");
+
+          var contentContainer = element.$.contentContainer;
+          var innerHTMLString = Polymer.dom(contentContainer).innerHTML;
+          // remove style scope
+          innerHTMLString = innerHTMLString.replace(/(style-scope at-form-static)/gi, "");
+          innerHTMLString = innerHTMLString.replace(/(at-form-static style-scope)/gi, "");
+          // remove empty class attribute
+          innerHTMLString = innerHTMLString.replace(/class=""/gi, "");
+          // remove empty attribute values
+          innerHTMLString = innerHTMLString.replace(/=""/gi, "");
+          // strip whitespace
+          innerHTMLString = innerHTMLString.replace(/" >/gi, "\">");
+          innerHTMLString = innerHTMLString.replace(/[\s]+/gi, " ");
+          innerHTMLString = innerHTMLString.replace(/ >/gi, ">");
+          innerHTMLString = innerHTMLString.replace(/\n/gi, "");
+
+          console.log(innerHTMLString);
+          console.log(staticHtml);
+
+          assert.equal(innerHTMLString, staticHtml, 'innerHTML not set correctly');
+        });
+
       });
 
       suite('tests where property values are set in code', function () {
-        test('label is displayed', function () {
-          var element = fixture('propertyTests');
-          element.label = 'lorem ipsum';
-          element.hideLabel = false;
-
-          assert.equal(element.label, 'lorem ipsum', "label not set correctly");
-          assert.equal(element.hideLabel, false, "hideLabel has incorrect value");
-
-          var label = element.$.label;
-          assert.equal(Polymer.dom(label).innerHTML, "lorem ipsum", "label content not set correctly");
-
-          var atContainer = element.$.atContainer;
-          var labelDisplay = getStylePropertyValue(label, 'display');
-          assert.equal(labelDisplay, 'block', "label display has correct value");
-          var containerDisplay = getStylePropertyValue(atContainer, 'display');
-          assert.equal(containerDisplay, 'block', "container display has correct value");
-        });
-
-        test('label is hidden', function () {
-          var element = fixture('propertyTests');
-          element.label = 'lorem ipsum';
-          element.hideLabel = true;
-
-          assert.equal(element.label, 'lorem ipsum', "label not set correctly");
-          assert.equal(element.hideLabel, true, "hideLabel has incorrect value");
-
-          var label = element.$.label;
-          assert.equal(Polymer.dom(label).innerHTML, "lorem ipsum", "label content not set correctly");
-
-          var atContainer = element.$.atContainer;
-          var labelDisplay = getStylePropertyValue(label, 'display');
-          assert.equal(labelDisplay, 'block', "label display has correct value");
-          var containerDisplay = getStylePropertyValue(atContainer, 'display');
-          assert.equal(containerDisplay, 'none', "container display has correct value");
-        });
 
         test('element is hidden', function () {
           var element = fixture('propertyTests');
@@ -139,6 +96,31 @@
           var containerDisplay = getStylePropertyValue(atContainer, 'display');
           assert.equal(containerDisplay, 'none', "container display has correct value");
         });
+
+        test('value set in code ', function () {
+          var element = fixture('propertyTests');
+          var staticHtml = '<test-fixture id="hidden"><template><at-form-static hide></at-form-static></template></test-fixture><test-fixture id="propertyTests"><template><at-form-static></at-form-static></template></test-fixture>';
+          element.value = staticHtml
+          assert.equal(element.value, staticHtml, "value is not correct");
+
+          var contentContainer = element.$.contentContainer;
+          var innerHTMLString = Polymer.dom(contentContainer).innerHTML;
+          // remove style scope
+          innerHTMLString = innerHTMLString.replace(/style-scope at-form-static/gi, "");
+          innerHTMLString = innerHTMLString.replace(/at-form-static style-scope/gi, "");
+          // remove empty class attribute
+          innerHTMLString = innerHTMLString.replace(/class=""/gi, "");
+          // remove empty attribute values
+          innerHTMLString = innerHTMLString.replace(/=""/gi, "");
+          // strip whitespace
+          innerHTMLString = innerHTMLString.replace(/" >/gi, "\">");
+          innerHTMLString = innerHTMLString.replace(/[\s]+/gi, " ");
+          innerHTMLString = innerHTMLString.replace(/ >/gi, ">");
+          innerHTMLString = innerHTMLString.replace(/\n/gi, "");
+
+          assert.equal(innerHTMLString, staticHtml, 'innerHTML not set correctly');
+        });
+
       });
 
     });
