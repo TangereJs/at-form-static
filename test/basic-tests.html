@@ -21,6 +21,18 @@
 
 <body>
 
+  <test-fixture id="displayLabel">
+    <template>
+      <at-form-static label="lorem ipsum"></at-form-static>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="hideLabel">
+    <template>
+      <at-form-static label="lorem ipsum" hide-label></at-form-static>
+    </template>
+  </test-fixture>
+
   <test-fixture id="hidden">
     <template>
         <at-form-static hide></at-form-static>
@@ -48,6 +60,37 @@
       }
 
       suite('tests where property values are set as attributes', function () {
+
+        test('label is displayed', function () {
+          var element = fixture('displayLabel');
+          assert.equal(element.label, 'lorem ipsum', "label not set correctly");
+          assert.equal(element.hideLabel, false, "hideLabel has incorrect value");
+
+          var label = element.$.label;
+          assert.equal(Polymer.dom(label).innerHTML, "lorem ipsum", "label content not set correctly");
+
+          var atContainer = element.$.atContainer;
+          var labelDisplay = getStylePropertyValue(label, 'display');
+          assert.equal(labelDisplay, 'block', "label display has correct value");
+          var containerDisplay = getStylePropertyValue(atContainer, 'display');
+          assert.equal(containerDisplay, 'block', "container display has correct value");
+        });
+
+        test('label is hidden', function () {
+          var element = fixture('hideLabel');
+          assert.equal(element.label, 'lorem ipsum', "label not set correctly");
+          assert.equal(element.hideLabel, true, "hideLabel has incorrect value");
+
+          var label = element.$.label;
+          assert.equal(Polymer.dom(label).innerHTML, "lorem ipsum", "label content not set correctly");
+
+          var labelDisplay = getStylePropertyValue(label, 'display');
+          assert.equal(labelDisplay, 'none', "label display has correct value");
+
+          var atContainer = element.$.atContainer;
+          var containerDisplay = getStylePropertyValue(atContainer, 'display');
+          assert.equal(containerDisplay, 'block', "container display has correct value");
+        });
 
         test('element is hidden', function () {
           var element = fixture('hidden');
@@ -87,6 +130,43 @@
       });
 
       suite('tests where property values are set in code', function () {
+
+        test('label is displayed', function () {
+          var element = fixture('propertyTests');
+          element.label = 'lorem ipsum';
+          element.hideLabel = false;
+
+          assert.equal(element.label, 'lorem ipsum', "label not set correctly");
+          assert.equal(element.hideLabel, false, "hideLabel has incorrect value");
+
+          var label = element.$.label;
+          assert.equal(Polymer.dom(label).innerHTML, "lorem ipsum", "label content not set correctly");
+
+          var atContainer = element.$.atContainer;
+          var labelDisplay = getStylePropertyValue(label, 'display');
+          assert.equal(labelDisplay, 'block', "label display has correct value");
+          var containerDisplay = getStylePropertyValue(atContainer, 'display');
+          assert.equal(containerDisplay, 'block', "container display has correct value");
+        });
+
+        test('label is hidden', function () {
+          var element = fixture('propertyTests');
+          element.label = 'lorem ipsum';
+          element.hideLabel = true;
+
+          assert.equal(element.label, 'lorem ipsum', "label not set correctly");
+          assert.equal(element.hideLabel, true, "hideLabel has incorrect value");
+
+          var label = element.$.label;
+          assert.equal(Polymer.dom(label).innerHTML, "lorem ipsum", "label content not set correctly");
+
+          var atContainer = element.$.atContainer;
+          var labelDisplay = getStylePropertyValue(label, 'display');
+          assert.equal(labelDisplay, 'none', "label display has correct value");
+
+          var containerDisplay = getStylePropertyValue(atContainer, 'display');
+          assert.equal(containerDisplay, 'block', "container display has correct value");
+        });
 
         test('element is hidden', function () {
           var element = fixture('propertyTests');

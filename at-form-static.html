@@ -1,5 +1,6 @@
 <link rel="import" href="../tangere/tangere.html">
 <link rel="import" href="../at-theme/at-theme.html">
+<link rel="import" href="../iron-label/iron-label.html">
 
 <dom-module id="at-form-static">
   <template>
@@ -134,6 +135,7 @@
       }
     </style>
     <div id="atContainer" class="at-container">
+      <iron-label id="label">{{label}}</iron-label>
       <div id="contentContainer" class="at-content-container"></div>
     </div>
   </template>
@@ -142,6 +144,30 @@
     Polymer({
       is: 'at-form-static',
       properties: {
+        /**
+         * Element's label for element display purposes
+         * @property label
+         * @type String
+         * @default ""
+         */
+        label: {
+          type: String,
+          value: '',
+          title: 'Label'
+        },
+
+        /**
+         * When true label is hidden
+         * @property hideLabel
+         * @type Boolean
+         * @default false
+         */
+        hideLabel: {
+          type: Boolean,
+          value: false,
+          observer: '_hideLabelChanged',
+          title: 'Do not show the label'
+        },
 
         /**
          * Hides the element. When hidden nothing is displayed for the element
@@ -178,6 +204,10 @@
 
       ready: function () {
 
+      },
+
+      _hideLabelChanged: function (newValue, oldValue) {
+        this.toggleClass('hidden', newValue, this.$.label);
       },
 
       _hideChanged: function (newValue, oldValue) {
