@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>at-form-static tests</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../iron-test-helpers/test-helpers.js"></script>
+  <script src="../../iron-test-helpers/mock-interactions.js"></script>
+
+  <link rel="import" href="../at-form-static.html">
+
+</head>
+
+<body>
+  <test-fixture id="displayLabel">
+    <template>
+      <at-form-static label="lorem ipsum"></at-form-static>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="hideLabel">
+    <template>
+      <at-form-static label="lorem ipsum" hide-label></at-form-static>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="hidden">
+    <template>
+        <at-form-static hide></at-form-static>
+      </template>
+  </test-fixture>
+
+  <test-fixture id="propertyTests">
+    <template>
+        <at-form-static></at-form-static>
+      </template>
+  </test-fixture>
+
+
+  <script>
+    suite('basic tests', function () {
+
+      function getStylePropertyValue(element, propertyName) {
+        return window.getComputedStyle(element).getPropertyValue(propertyName);
+      }
+
+      suite('tests where property values are set as attributes', function () {
+        test('label is displayed', function () {
+          var element = fixture('displayLabel');
+          assert.equal(element.label, 'lorem ipsum', "label not set correctly");
+          assert.equal(element.hideLabel, false, "hideLabel has incorrect value");
+
+          var label = element.$.label;
+          assert.equal(Polymer.dom(label).innerHTML, "lorem ipsum", "label content not set correctly");
+
+          var atContainer = element.$.atContainer;
+          var labelDisplay = getStylePropertyValue(label, 'display');
+          assert.equal(labelDisplay, 'block', "label display has correct value");
+          var containerDisplay = getStylePropertyValue(atContainer, 'display');
+          assert.equal(containerDisplay, 'block', "container display has correct value");
+        });
+
+        test('label is hidden', function () {
+          var element = fixture('hideLabel');
+          assert.equal(element.label, 'lorem ipsum', "label not set correctly");
+          assert.equal(element.hideLabel, true, "hideLabel has incorrect value");
+
+          var label = element.$.label;
+          assert.equal(Polymer.dom(label).innerHTML, "lorem ipsum", "label content not set correctly");
+
+          var labelDisplay = getStylePropertyValue(label, 'display');
+          assert.equal(labelDisplay, 'block', "label display has correct value");
+
+          var atContainer = element.$.atContainer;
+          var containerDisplay = getStylePropertyValue(atContainer, 'display');
+          assert.equal(containerDisplay, 'none', "container display has correct value");
+        });
+
+        test('element is hidden', function () {
+          var element = fixture('hidden');
+          assert.equal(element.hide, true, "hide has incorrect value");
+
+          var atContainer = element.$.atContainer;
+          var containerDisplay = getStylePropertyValue(atContainer, 'display');
+          assert.equal(containerDisplay, 'none', "container display has correct value");
+        });
+      });
+
+      suite('tests where property values are set in code', function () {
+        test('label is displayed', function () {
+          var element = fixture('propertyTests');
+          element.label = 'lorem ipsum';
+          element.hideLabel = false;
+
+          assert.equal(element.label, 'lorem ipsum', "label not set correctly");
+          assert.equal(element.hideLabel, false, "hideLabel has incorrect value");
+
+          var label = element.$.label;
+          assert.equal(Polymer.dom(label).innerHTML, "lorem ipsum", "label content not set correctly");
+
+          var atContainer = element.$.atContainer;
+          var labelDisplay = getStylePropertyValue(label, 'display');
+          assert.equal(labelDisplay, 'block', "label display has correct value");
+          var containerDisplay = getStylePropertyValue(atContainer, 'display');
+          assert.equal(containerDisplay, 'block', "container display has correct value");
+        });
+
+        test('label is hidden', function () {
+          var element = fixture('propertyTests');
+          element.label = 'lorem ipsum';
+          element.hideLabel = true;
+
+          assert.equal(element.label, 'lorem ipsum', "label not set correctly");
+          assert.equal(element.hideLabel, true, "hideLabel has incorrect value");
+
+          var label = element.$.label;
+          assert.equal(Polymer.dom(label).innerHTML, "lorem ipsum", "label content not set correctly");
+
+          var atContainer = element.$.atContainer;
+          var labelDisplay = getStylePropertyValue(label, 'display');
+          assert.equal(labelDisplay, 'block', "label display has correct value");
+          var containerDisplay = getStylePropertyValue(atContainer, 'display');
+          assert.equal(containerDisplay, 'none', "container display has correct value");
+        });
+
+        test('element is hidden', function () {
+          var element = fixture('propertyTests');
+          element.hide = true;
+
+          var atContainer = element.$.atContainer;
+          var containerDisplay = getStylePropertyValue(atContainer, 'display');
+          assert.equal(containerDisplay, 'none', "container display has correct value");
+        });
+      });
+
+    });
+  </script>
+
+</body>
+
+</html>

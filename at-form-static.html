@@ -1,0 +1,79 @@
+<link rel="import" href="../tangere/tangere.html">
+<link rel="import" href="../at-theme/at-theme.html">
+
+<dom-module id="at-form-static">
+  <template>
+    <style>
+    </style>
+  </template>
+  <script>
+    'use strict';
+    Polymer({
+      is: 'at-form-static',
+      properties: {
+        /**
+         * Element's label
+         * @property label
+         * @type String
+         * @default ''
+         */
+        label: {
+          type: String,
+          value: '',
+          title: 'Label'
+        },
+
+        /**
+         * When true label is not displayed
+         * @property hideLabel
+         * @type Boolean
+         * @default false
+         */
+        hideLabel: {
+          type: Boolean,
+          value: false,
+          title: 'Label is hidden'
+        },
+
+        /**
+         * Hides the element. When hidden nothing is displayed for the element
+         * @property hide
+         * @type Boolean
+         * @default false
+         */
+        hide: {
+          type: Boolean,
+          value: false,
+          title: 'Element is hidden'
+        },
+
+        /**
+         * Elements value
+         * @property value
+         * @type String
+         * @default ''
+         */
+        value: {
+          type: String,
+          value: '',
+          observer: '_valueChanged',
+          xtype: 'html',
+          title: 'Value'
+        }
+      },
+
+      $meta:[{
+        title: 'Static HTML',
+        type: 'html'
+      }],
+
+      ready: function () {
+
+      },
+
+      _valueChanged: function (newValue, oldValue) {
+
+      }
+    });
+  </script>
+</dom-module>
