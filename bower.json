@@ -5,6 +5,7 @@
   "dependencies": {
     "tangere": "TangereJs/tangere#0.8-preview",
     "at-theme": "TangereJs/at-theme#0.8-preview",
+    "iron-label": "PolymerElements/iron-label#master",
     "at-doc-viewer": "TangereJs/at-doc-viewer#0.8-preview"
   }
 }
