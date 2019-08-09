@@ -191,10 +191,17 @@
         value: {
           type: String,
           value: '',
-          observer: '_valueChanged',
           xtype: 'html',
           title: 'Value'
-        }
+        },
+
+        rawHtml: {
+          type: String,
+          value: '',
+          observer: '_rawHtmlValueChanged',
+          xtype: 'code',
+          mode: "htmlmixed"
+        },
       },
 
       $meta:[{
@@ -215,7 +222,7 @@
         this.toggleClass('hidden', newValue, this.$.atContainer);
       },
 
-      _valueChanged: function (newValue, oldValue) {
+      _rawHtmlValueChanged: function (newValue, oldValue) {
         Polymer.dom(this.$.contentContainer).innerHTML = newValue;
       }
     });
