@@ -197,14 +197,12 @@
         html: {
           type: String,
           value: '',
-          observer: '_htmlValueChanged',
           xtype: 'html',
         },
 
         rawHtml: {
           type: String,
           value: '',
-          observer: '_rawHtmlValueChanged',
           xtype: 'code',
           mode: "htmlmixed"
         },
@@ -215,6 +213,8 @@
         type: 'string',
         xtype: 'at-form-static'
       }],
+
+      observers: ['_propertiesChanged(value, html, rawHtml)'],
 
       ready: function () {
 
@@ -228,13 +228,10 @@
         this.toggleClass('hidden', newValue, this.$.atContainer);
       },
 
-      _htmlValueChanged: function (newValue, oldValue) {
-        Polymer.dom(this.$.contentContainer).innerHTML = newValue;
-      },
-
-      _rawHtmlValueChanged: function (newValue, oldValue) {
-        Polymer.dom(this.$.contentContainer).innerHTML = newValue;
+      _propertiesChanged(newValue, oldValue) {
+        Polymer.dom(this.$.atContainer).innerHTML = newValue.value + newValue.html + newValue.rawHtml;
       }
+
     });
   </script>
 </dom-module>
