@@ -214,7 +214,7 @@
         xtype: 'at-form-static'
       }],
 
-      observers: ['_propertiesChanged(value, html, rawHtml)'],
+      observers: ['_contentChanged(value, html, rawHtml)'],
 
       ready: function () {
 
@@ -228,24 +228,22 @@
         this.toggleClass('hidden', newValue, this.$.atContainer);
       },
 
-      _propertiesChanged(newValue, oldValue) {
+      _contentChanged: function (value, html, rawHtml) {
         var innerHtmlString = '';
 
-        if(newValue.value != undefined) {
-          innerHtmlString += newValue.value;
+        if(value != undefined) {
+          innerHtmlString += value;
         }
 
-        if(newValue.html != undefined) {
-          innerHtmlString += newValue.html;
+        if(html != undefined) {
+          innerHtmlString += html;
         }
 
-        if(newValue.rawHtml != undefined) {
-          innerHtmlString += newValue.rawHtml;
+        if(rawHtml != undefined) {
+          innerHtmlString += rawHtml;
         }
         
-        if(innerHtmlString != '') {
-          Polymer.dom(this.$.atContainer).innerHTML = innerHtmlString;
-        }
+        Polymer.dom(this.$.atContainer).innerHTML = innerHtmlString;
       }
 
     });
