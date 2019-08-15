@@ -229,7 +229,23 @@
       },
 
       _propertiesChanged(newValue, oldValue) {
-        Polymer.dom(this.$.atContainer).innerHTML = newValue.value + newValue.html + newValue.rawHtml;
+        var innerHtmlString = '';
+
+        if(newValue.value != undefined) {
+          innerHtmlString += newValue.value;
+        }
+
+        if(newValue.html != undefined) {
+          innerHtmlString += newValue.html;
+        }
+
+        if(newValue.rawHtml != undefined) {
+          innerHtmlString += newValue.rawHtml;
+        }
+        
+        if(innerHtmlString != '') {
+          Polymer.dom(this.$.atContainer).innerHTML = innerHtmlString;
+        }
       }
 
     });
