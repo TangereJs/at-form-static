@@ -1,9 +1,10 @@
 <link rel="import" href="../tangere/tangere.html">
-<link rel="import" href="../at-theme/at-theme.html">
+<link rel="import" href="../at-core-style-classes/at-core-style-classes.html">
 <link rel="import" href="../iron-label/iron-label.html">
 
 <dom-module id="at-form-static">
   <template>
+    <style include="at-core-style-classes"></style>
     <style include="at-form-common"></style>
     <style>
       :host {
@@ -136,7 +137,7 @@
     </style>
     <div id="atContainer" class="at-container">
       <iron-label id="label">{{label}}</iron-label>
-      <div id="contentContainer" class="at-content-container"></div>
+      <div id="contentContainer" class="at-content-container font-body1"></div>
     </div>
   </template>
   <script>
@@ -231,10 +232,8 @@
       _contentChanged: function (value, html, rawHtml) {
         var innerHtmlString = '';
 
-        if(value != undefined) {
-          innerHtmlString += value;
-        }
-
+        if(value) this.value = ''; 
+        
         if(html != undefined) {
           innerHtmlString += html;
         }
@@ -242,8 +241,8 @@
         if(rawHtml != undefined) {
           innerHtmlString += rawHtml;
         }
-        
-        Polymer.dom(this.$.atContainer).innerHTML = innerHtmlString;
+
+        Polymer.dom(this.$.contentContainer).innerHTML = innerHtmlString;
       }
 
     });
